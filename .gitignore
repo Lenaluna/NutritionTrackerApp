@@ -1,0 +1,48 @@
+# === IDEs & Editor ===
+.idea/
+.vscode/
+*.iml
+# === Build output ===
+target/
+dist/
+build/
+# === Node ===
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# === Maven Wrapper (optional) ===
+mvnw
+mvnw.cmd
+.mvn/
+# === System ===
+.DS_Store
+Thumbs.db
+# === Environment ===
+.env
+.env.*
+!application-dev.yml
+# === Output-Dateien ===
+*.log
+output.txt
+*.sh
+# === IntelliJ spezifisch ===
+*.iws
+*.ipr
+*.idea/
+# === Sonstige temporäre Dateien ===
+*.tmp
+*.swp
+*~
+
+# === Weitere application-*.yml Dateien ===
+!backend/src/main/resources/application.yml
+!backend/src/main/resources/application-dev.yml
+!backend/src/test/resources/application-test.yml
+backend/src/test/resources/application-integration-test.yml
+# === H2-Datenbankdateien (werden neu erzeugt) ===
+backend/data/*.mv.db
+backend/data/*.trace.db
+# === Temporäre IntelliJ-Projektdateien ===
+**/*.iml

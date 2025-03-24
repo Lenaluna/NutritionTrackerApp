@@ -1,0 +1,242 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080/api
+    description: Generated server url
+paths:
+  /user-data/update:
+    put:
+      tags:
+        - user-data-controller
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDataDTO"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /nutrition-logs/{logId}/food-items/{foodItemId}:
+    post:
+      tags:
+        - nutrition-log-controller
+      operationId: addFoodItemToLog
+      parameters:
+        - name: logId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: foodItemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /nutrition-logs/create:
+    post:
+      tags:
+        - nutrition-log-controller
+      operationId: createLog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NutritionLogCreateDTO"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NutritionLogResponseDTO"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /amino-profile/sum:
+    post:
+      tags:
+        - amino-profile-controller
+      operationId: calculateAminoAcidSum
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /food-items/all:
+    get:
+      tags:
+        - food-item-controller
+      operationId: getAllFoodItems
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FoodItemDTO"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  schemas:
+    UserDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 3
+          maxLength: 15
+        age:
+          type: integer
+          format: int32
+          minimum: 3
+          maximum: 120
+        weight:
+          type: number
+          format: double
+          minimum: 12.0
+          maximum: 500.0
+        isAthlete:
+          type: boolean
+        isVegan:
+          type: boolean
+        isLongevityFocused:
+          type: boolean
+      required:
+        - age
+        - name
+        - weight
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        weight:
+          type: number
+          format: double
+        isAthlete:
+          type: boolean
+        isVegan:
+          type: boolean
+        isLongevityFocused:
+          type: boolean
+        version:
+          type: integer
+          format: int64
+
+    NutritionLogCreateDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+
+    NutritionLogResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+
+    FoodItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        category:
+          type: string
+        aminoAcids:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
